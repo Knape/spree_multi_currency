@@ -1,4 +1,5 @@
 Spree::Core::Engine.add_routes do
+  get '/currency/list', to: 'currency#list', defaults: { format: :json }, as: :list_currency
   post '/currency/set', to: 'currency#set', defaults: { format: :json }, as: :set_currency
 
   namespace :admin do

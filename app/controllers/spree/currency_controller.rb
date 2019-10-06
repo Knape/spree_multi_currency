@@ -1,5 +1,17 @@
 module Spree
   class CurrencyController < StoreController
+    skip_before_action :verify_authenticity_token, raise: false
+
+    def list
+      respond_to do |format|
+        format.json { render json: supported_currencies.map { |currency| currency.iso_code }.to_json }
+        format.html do
+          # We want to go back to where we came from!
+          redirect_back_or_default(root_path)
+        end
+      end
+    end
+
     def set
       @currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
       # Make sure that we update the current order, so the currency change is reflected.
